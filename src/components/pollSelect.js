@@ -1,7 +1,6 @@
 import '@picocss/pico';
 import { useState, useEffect } from 'react';
 import { db } from "../firebase/firebase";
-import firebase from "firebase/compat/app";
 
 
 function PollSelect() {
@@ -27,7 +26,7 @@ function PollSelect() {
     return (
         <section className="container">
             {
-                availablePolls.length == 0 ? (
+                availablePolls.length === 0 ? (
                     <h4>Loading...</h4>
                 ) : (
                     availablePolls.map((poll) => (

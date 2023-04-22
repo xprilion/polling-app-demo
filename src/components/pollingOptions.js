@@ -41,7 +41,7 @@ function PollingOptions(params) {
             { fetchedPollData === false ? (
                     <h4>Loading...</h4>
                 ) : (
-                    pollData.choices && Object.entries(pollData.choices).map(([key, value]) => (
+                    pollData.choices && Object.entries(pollData.choices).sort().map(([key, value]) => (
                         <button onClick={() => {performVote(key)}} key={key}>{value.name}</button>
                       ))
                 )
