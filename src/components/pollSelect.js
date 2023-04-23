@@ -10,8 +10,9 @@ function PollSelect() {
     useEffect(() => {
         async function fetchPolls() {
             try {
-                db.collection("polls").get().then((querySnapshot) => {
-                    querySnapshot.forEach((poll) => {
+                db.collection("polls").onSnapshot((polls) => {
+                    setAvailablePolls([]);
+                    polls.forEach((poll) => {
                         setAvailablePolls(current => [...current, {id: poll.id, data: poll.data()}]);
                     })
                 })
@@ -30,7 +31,7 @@ function PollSelect() {
                     <h4>Loading...</h4>
                 ) : (
                     availablePolls.map((poll) => (
-                        <a href={'/'+poll.id} key={poll.id}><button key="credit" className="outline">{poll.data.name}</button></a>
+                        <a href={ poll.data.active === true ? '/'+poll.id : 'javascript: alert("Poll not started or has ended.");'} key={poll.id}><button className="outline">{poll.data.name}</button></a>
                     ))
                 )             
             }

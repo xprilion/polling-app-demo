@@ -10,12 +10,14 @@ function PollingOptions(params) {
 
     const [pollData, setPollData] = useState([]);
     const [fetchedPollData, setFetchedPollData] = useState(false);
+    const [voted, setVoted] = useState("none");
 
     function performVote(choiceId) {
         var docRef = db.collection('polls').doc(pollId);
         docRef.update({
             ["choices."+choiceId+".votes"]: firebase.firestore.FieldValue.increment(1)
         });
+        setVoted(choiceId);
     }
 
     useEffect(() => {
@@ -42,7 +44,7 @@ function PollingOptions(params) {
                     <h4>Loading...</h4>
                 ) : (
                     pollData.choices && Object.entries(pollData.choices).sort().map(([key, value]) => (
-                        <button onClick={() => {performVote(key)}} key={key}>{value.name}</button>
+                        <button onClick={() => {performVote(key)}} key={key} disabled={pollData.active === false || voted !== "none"} className={ voted === key ? "" : "outline"}>{value.name}</button>
                       ))
                 )
             }
